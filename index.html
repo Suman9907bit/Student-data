@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>Student List | Institute</title>
+  <style>
+    body{font-family:Arial, sans-serif;background:#f4f6f9;margin:0;padding:20px}
+    h1{text-align:center}
+    .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+    button{padding:8px 14px;border:none;border-radius:4px;cursor:pointer}
+    .btn-pdf{background:#dc3545;color:#fff}
+    .btn-excel{background:#0d6efd;color:#fff}
+    table{width:100%;border-collapse:collapse;background:#fff}
+    th,td{border:1px solid #ccc;padding:8px;text-align:center}
+    th{background:#2c3e50;color:#fff}
+    @media print{
+      .top-bar{display:none}
+      body{background:#fff}
+    }
+  </style>
+</head>
+<body><h1>Student List</h1><div class="top-bar">
+  <div>
+    <button class="btn-pdf" onclick="window.print()">📄 PDF</button>
+    <button class="btn-excel" onclick="exportExcel()">📊 Excel</button>
+  </div>
+</div><table id="studentTable">
+  <thead>
+    <tr>
+      <th>Roll</th>
+      <th>Name</th>
+      <th>Admission Date</th>
+      <th>Running Course</th>
+      <th>Completed Course</th>
+      <th>Due Course</th>
+      <th>Day Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- ✍️ এখানেই student data বসাবে -->
+  </tbody>
+</table><script>
+// 🔹 শুধু এখানেই সারা বছরের data বসাবে
+const students = [
+  {
+    roll: '01',
+    name: 'Rahul Das',
+    date: '2025-01-10',
+    running: 'Diploma in Computer',
+    complete: 'Basic Computer',
+    due: 'Advance Excel'
+  },
+  {
+    roll: '02',
+    name: 'Suman Jana',
+    date: '2025-02-01',
+    running: 'Web Design',
+    complete: 'Basic Computer',
+    due: 'PHP & MySQL'
+  }
+];
+
+const tbody = document.querySelector('#studentTable tbody');
+
+function loadStudents(){
+  tbody.innerHTML = '';
+  students.forEach(st => {
+    const tr = document.createElement('tr');
+    tr.dataset.date = st.date;
+    tr.innerHTML = `
+      <td>${st.roll}</td>
+      <td>${st.name}</td>
+      <td>${st.date}</td>
+      <td>${st.running}</td>
+      <td>${st.complete}</td>
+      <td>${st.due}</td>
+      <td class="days"></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  updateDays();
+}
+
+function updateDays(){
+  let rows = document.querySelectorAll('#studentTable tbody tr');
+  let today = new Date();
+  rows.forEach(row=>{
+    let ad = new Date(row.dataset.date);
+    let diff = Math.floor((today - ad)/(1000*60*60*24));
+    row.querySelector('.days').innerText = diff + ' days';
+  });
+}
+
+loadStudents();
+setInterval(updateDays, 86400000);
+
+function exportExcel(){
+  let table = document.getElementById('studentTable').outerHTML;
+  let blob = new Blob([table], {type:'application/vnd.ms-excel'});
+  let a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'student_list.xls';
+  a.click();
+}
+</script></body>
+</html>
