@@ -1,345 +1,217 @@
-<!DOCTYPE html><html lang="bn">
-<head>
-  <meta charset="UTF-8">
-  <title>Student List | Institute</title>
-  <style>
-    body{font-family:Arial, sans-serif;background:#f4f6f9;margin:0;padding:20px}
-    h1{text-align:center}
-    .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
-    button{padding:8px 14px;border:none;border-radius:4px;cursor:pointer}
-    .btn-pdf{background:#dc3545;color:#fff}
-    .btn-excel{background:#0d6efd;color:#fff}
-    table{width:100%;border-collapse:collapse;background:#fff}
-    th,td{border:1px solid #ccc;padding:8px;text-align:center}
-    th{background:#2c3e50;color:#fff}
-    @media print{
-      .top-bar{display:none}
-      body{background:#fff}
-    }
-  </style>
-</head>
-<body><h1>Student List</h1><div class="top-bar">
-  <div>
-    <button class="btn-pdf" onclick="window.print()">📄 PDF</button>
-    <button class="btn-excel" onclick="exportExcel()">📊 Excel</button>
-  </div>
-</div><table id="studentTable">
-  <thead>
-    <tr>
-      <th>Roll</th>
-      <th>Name</th>
-      <th>Admission Date</th>
-      <th>Running Course</th>
-      <th>Completed Course</th>
-      <th>Due Course</th>
-      <th>Day Count</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- ✍️ এখানেই student data বসাবে -->
-  </tbody>
-</table><script>
-// 🔹 শুধু এখানেই সারা বছরের data বসাবে
-const students = [
-  {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-    {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-    {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-    {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-  {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-    {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-    {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-    {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-  {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-    {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-    {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-    {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-  {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-    {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-    {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-    {
-    roll: '01',
-    name: 'Rahul Das',
-    date: '2025-01-10',
-    running: 'Diploma in Computer',
-    complete: 'Basic Computer',
-    due: 'Advance Excel'
-  },
-  {
-    roll: '02',
-    name: 'Suman Jana',
-    date: '2025-02-01',
-    running: 'Web Design',
-    complete: 'Basic Computer',
-    due: 'PHP & MySQL'
-  },
-];
-
-const tbody = document.querySelector('#studentTable tbody');
-
-function loadStudents(){
-  tbody.innerHTML = '';
-  students.forEach(st => {
-    const tr = document.createElement('tr');
-    tr.dataset.date = st.date;
-    tr.innerHTML = `
-      <td>${st.roll}</td>
-      <td>${st.name}</td>
-      <td>${st.date}</td>
-      <td>${st.running}</td>
-      <td>${st.complete}</td>
-      <td>${st.due}</td>
-      <td class="days"></td>
-    `;
-    tbody.appendChild(tr);
-  });
-  updateDays();
+<!DOCTYPE html><html lang="bn">  <head>  
+<meta charset="UTF-8">  
+<title>Student Admission Form</title><style>  
+body{  
+    font-family: "Segoe UI", sans-serif;  
+    background:#f2f2f2;  
+    margin:0;  
+    padding:20px;  
+}  .form-container{
+width:800px;
+margin:auto;
+background:#fff;
+padding:25px;
+border:1px solid #000;
 }
 
-function updateDays(){
-  let rows = document.querySelectorAll('#studentTable tbody tr');
-  let today = new Date();
-  rows.forEach(row=>{
-    let ad = new Date(row.dataset.date);
-    let diff = Math.floor((today - ad)/(1000*60*60*24));
-    row.querySelector('.days').innerText = diff + ' days';
-  });
+.header{
+display:flex;
+align-items:center;
+border-bottom:2px solid #000;
+padding-bottom:10px;
 }
 
-loadStudents();
-setInterval(updateDays, 86400000);
-
-function exportExcel(){
-  let table = document.getElementById('studentTable').outerHTML;
-  let blob = new Blob([table], {type:'application/vnd.ms-excel'});
-  let a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'student_list.xls';
-  a.click();
+.logo{
+width:90px;
 }
-</script></body>
-</html>
+.logo img{
+width:100%;
+}
+
+.institute-info{
+flex:1;
+text-align:center;
+}
+.institute-info h1{
+margin:0;
+color:navy;
+font-size:26px;
+}
+.institute-info p{
+margin:3px 0;
+color:orange;
+font-size:14px;
+}
+
+.title{
+text-align:center;
+margin:15px 0;
+font-size:20px;
+text-decoration:underline;
+font-weight:bold;
+}
+
+table{
+width:97%;
+border-collapse:collapse;
+margin-bottom:15px;
+}
+td, th{
+border:1px solid #000;
+padding:8px;
+font-size:14px;
+}
+
+.section-title{
+background:navy;
+font-weight:bold;
+text-align:left;
+color:white;
+}
+
+input{
+width:100%;
+border:none;
+outline:none;
+font-size:14px;
+}
+
+.rules{
+border:1px solid #000;
+padding:12px;
+font-size:14px;
+margin-top:15px;
+ width:94%;   
+}
+.rules h3{
+margin:0 0 8px 0;
+text-align:center;
+color:red;
+text-decoration:underline;
+}
+.rules ol{
+padding-left:18px;
+}
+.rules li{
+margin-bottom:6px;
+color:green;
+}
+
+.footer{
+display:flex;
+justify-content:space-between;
+margin-top:40px;
+}
+
+.signature{
+text-align:center;
+}
+
+.print-btn{
+text-align:center;
+margin-top:20px;
+}
+
+button{
+padding:10px 25px;
+font-size:16px;
+cursor:pointer;
+}
+
+.no-print{display:block;}
+
+@media print{
+body{background:none;padding:0;}
+.no-print{display:none !important;}
+.form-container{border:none;width:100%;}
+}
+</style></head><body><div class="form-container"><!-- HEADER -->
+
+<div class="header">  
+    <div class="logo">  
+        <img src="https://lh3.googleusercontent.com/p/AF1QipMWBKH-2GigRZ_OYEcaRzOF_2KI-Zpk-ApVth6w=s1360-w1360-h1020-rw" alt="Logo">  
+    </div>  
+    <div class="institute-info">  
+        <h1>DIGITAL FUTURE INFORMATION TECHNOLOGY</h1>  
+        <p>Computer Training Institute (Privet Limited)</p>  
+        <p>Address: Kakdwip,Lot No 8,Golpark,South 24 PGS,West Bengal -743347</p>  
+        <p>Mobile: +91 9907992247| Email:dfitcomputer@gmail.com</p>  
+    </div>  
+</div>  <div class="title">STUDENT ADMISSION FORM</div>  <!-- STUDENT DETAILS -->  <table>  
+    <tr><th colspan="4" class="section-title">Student Details</th></tr>  
+    <tr>  
+        <td>Name</td><td><input></td>  
+        <td>Date of Birth</td><td><input></td>  
+    </tr>  
+    <tr>  
+        <td>Gender</td><td><input></td>  
+        <td>Blood Group</td><td><input></td>  
+    </tr>  
+    <tr>  
+        <td>Mobile</td><td><input></td>  
+        <td>Email</td><td><input></td>  
+    </tr>  
+    <tr>  
+        <td>Address</td><td colspan="3"><input></td>  
+    </tr>  
+</table>  <!-- ACADEMIC -->  <table>  
+    <tr><th colspan="4" class="section-title">Academic Qualification</th></tr>  
+    <tr>  
+        <th>Exam</th><th>Board</th><th>Year</th><th>Result</th>  
+    </tr>  
+    <tr>  
+        <td><input></td><td><input></td><td><input></td><td><input></td>  
+    </tr>  
+    <tr>  
+        <td><input></td><td><input></td><td><input></td><td><input></td>  
+    </tr>  
+</table>  <!-- COURSE -->  <table>  
+    <tr><th colspan="4" class="section-title">Course Details</th></tr>  
+    <tr>  
+        <td>Course Name</td><td><input></td>  
+        <td>Batch Time</td><td><input></td>  
+    </tr>  
+    <tr>  
+        <td>Course Fee</td><td><input></td>  
+        <td>Admission Date</td><td><input></td>  
+    </tr>  
+</table>  <!-- GUARDIAN -->  <table>  
+    <tr><th colspan="4" class="section-title">Guardian Details</th></tr>  
+    <tr>  
+        <td>Name</td><td><input></td>  
+        <td>Mobile</td><td><input></td>  
+    </tr>  
+</table>  <!-- RULES & REGULATIONS -->  <div class="rules">  
+    <h3>Rules & Regulations</h3>  
+    <ol>  
+        <li>ভর্তি ফি ও কোর্স ফি নির্ধারিত সময়ের মধ্যে পরিশোধ করা বাধ্যতামূলক।</li>  
+        <li>কোর্স ফি একবার পরিশোধ করলে তা ফেরতযোগ্য নয়।</li>  
+        <li>নিয়মিত ক্লাসে উপস্থিত থাকা বাধ্যতামূলক।</li>  
+        <li>ক্লাসে মোবাইল ফোন ব্যবহার সম্পূর্ণ নিষিদ্ধ।</li>  
+        <li>ইনস্টিটিউটের নিয়ম-শৃঙ্খলা বজায় রাখা ছাত্র/ছাত্রীর দায়িত্ব।</li>  
+        <li>পরীক্ষায় অংশগ্রহণ না করলে সার্টিফিকেট প্রদান করা হবে না।</li>  
+        <li>কোর্স সম্পূর্ণ না করলে কোনো প্রকার সার্টিফিকেট দেওয়া হবে না।</li>  
+        <li>ইনস্টিটিউট কর্তৃপক্ষ প্রয়োজনে নিয়ম পরিবর্তনের অধিকার সংরক্ষণ করে।</li>  
+        <li>সার্টিফিকেট শুধুমাত্র সফলভাবে কোর্স সম্পন্নকারীদের দেওয়া হবে।</li>  
+        
+    </ol>  
+</div>  <!-- DECLARATION -->  <p>  
+    আমি ঘোষণা করছি যে উপরের সকল তথ্য সত্য ও সঠিক এবং প্রতিষ্ঠানের সকল নিয়ম ও শর্তাবলী মেনে চলতে সম্মত আছি।  
+</p>  <div class="footer">  
+    <div class="signature">  
+        ___________________<br>  
+        Student Signature  
+    </div>  
+    <div class="signature">  
+        ___________________<br>  
+        Authorized Signature  
+    </div>  
+</div>  </div><div class="print-btn no-print">  
+    <button onclick="window.print()">🖨 Print Admission Form</button>  
+    <button onclick="downloadPDF()">⬇ Download PDF</button>  
+</div><script>  
+function downloadPDF(){  
+    window.print();  
+}  
+</script></body>  
+</html> 
