@@ -2,13 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Student Data Panel</title>
+<title>DFIT Student Management Panel</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<!-- Export Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
@@ -16,41 +13,57 @@
 <style>
 :root{
   --primary:#0b3c8a;
-  --secondary:#f2f6fc;
-  --dark:#102a43;
+  --secondary:#f4f7fb;
+  --white:#fff;
 }
-*{box-sizing:border-box;font-family:Segoe UI,sans-serif}
+*{box-sizing:border-box;font-family:Segoe UI}
 body{margin:0;background:var(--secondary)}
 
 .header{
   background:var(--primary);
   color:#fff;
-  padding:15px 20px;
+  padding:15px 25px;
   font-size:20px;
   font-weight:600;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.wrapper{
-  padding:15px;
+.wrapper{padding:20px}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+  margin-bottom:20px;
 }
 
-/* FILTER */
+.card{
+  background:var(--white);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.card h3{margin:0;font-size:16px;color:#555}
+.card h2{margin:10px 0 0;color:var(--primary)}
+
 .filters{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
   gap:10px;
   margin-bottom:15px;
 }
+
 .filters input,.filters select{
   padding:10px;
   border:1px solid #ccc;
   border-radius:6px;
 }
 
-/* BUTTONS */
-.actions{
-  margin-bottom:15px;
-}
+.actions{margin-bottom:15px}
+
 .actions button{
   background:var(--primary);
   color:#fff;
@@ -60,34 +73,34 @@ body{margin:0;background:var(--secondary)}
   cursor:pointer;
   margin-right:8px;
 }
-.actions button i{margin-right:6px}
 
-/* TABLE */
 .table-box{
   background:#fff;
-  border-radius:10px;
+  border-radius:12px;
   box-shadow:0 5px 15px rgba(0,0,0,.08);
   overflow-x:auto;
 }
+
 table{
   width:100%;
   border-collapse:collapse;
   min-width:900px;
 }
+
 th,td{
   padding:10px;
   border-bottom:1px solid #eee;
-  text-align:left;
 }
-th{
-  background:#e9eff8;
-  color:#333;
-}
+
+th{background:#eef3fb}
+
 tr:hover{background:#f5f9ff}
 
-/* MOBILE */
-@media(max-width:768px){
-  .header{font-size:17px}
+.footer{
+  text-align:center;
+  padding:15px;
+  font-size:13px;
+  color:#666;
 }
 </style>
 </head>
@@ -95,124 +108,162 @@ tr:hover{background:#f5f9ff}
 <body>
 
 <div class="header">
-  <i class="fa-solid fa-user-graduate"></i> Student Data Management
+  <div><i class="fa-solid fa-graduation-cap"></i> DFIT Student Management</div>
+  <div>Live Admin Panel</div>
 </div>
 
 <div class="wrapper">
 
-  <!-- FILTERS -->
-  <div class="filters">
-    <input type="text" id="nameFilter" placeholder="Search Name">
-    <select id="courseFilter">
-      <option value="">All Courses</option>
-      <option>Basic</option>
-      <option>Diploma</option>
-      <option>Advance Diploma</option>
-      <option>Tally</option>
-    </select>
-    <input type="date" id="dateFilter">
-    <input type="number" id="dayFilter" placeholder="Live Day ≥">
+<div class="cards">
+  <div class="card">
+    <h3>Total Students</h3>
+    <h2 id="totalCount">0</h2>
   </div>
+  <div class="card">
+    <h3>Diploma</h3>
+    <h2 id="diplomaCount">0</h2>
+  </div>
+  <div class="card">
+    <h3>Basic</h3>
+    <h2 id="basicCount">0</h2>
+  </div>
+  <div class="card">
+    <h3>Advance Diploma</h3>
+    <h2 id="advanceCount">0</h2>
+  </div>
+</div>
 
-  <!-- ACTIONS -->
-  <div class="actions">
-    <button onclick="exportExcel()"><i class="fa-solid fa-file-excel"></i>Excel</button>
-    <button onclick="exportPDF()"><i class="fa-solid fa-file-pdf"></i>PDF</button>
-  </div>
+<div class="filters">
+  <input type="text" id="nameFilter" placeholder="Search Name">
+  <select id="courseFilter">
+    <option value="">All Courses</option>
+    <option>Basic</option>
+    <option>Diploma</option>
+    <option>Advance Diploma</option>
+    <option>Tally</option>
+  </select>
+  <input type="date" id="dateFilter">
+  <input type="number" id="dayFilter" placeholder="Live Day ≥">
+</div>
 
-  <!-- TABLE -->
-  <div class="table-box">
-    <table id="studentTable">
-      <thead>
-        <tr>
-          <th>SL</th>
-          <th>Name</th>
-          <th>Roll</th>
-          <th>Mobile</th>
-          <th>Father Name</th>
-          <th>Admission Date</th>
-          <th>Course</th>
-          <th>Live Day</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
+<div class="actions">
+  <button onclick="exportExcel()"><i class="fa-solid fa-file-excel"></i> Excel</button>
+  <button onclick="exportPDF()"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+</div>
+
+<div class="table-box">
+<table id="studentTable">
+<thead>
+<tr>
+<th>SL</th>
+<th>Name</th>
+<th>Roll</th>
+<th>Mobile</th>
+<th>Father</th>
+<th>Date</th>
+<th>Course</th>
+<th>Live Day</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
 
 </div>
 
+<div class="footer">
+© 2026 Digital Future Information Technology
+</div>
+
 <script>
-// ===== STUDENT DATA (CODE ENTRY) =====
-const students = [
-  {sl:1,name:"Rahul Das",roll:"101",mobile:"9876543210",father:"S Das",date:"2025-01-01",course:"Diploma"},
-  {sl:2,name:"Amit Roy",roll:"102",mobile:"9123456789",father:"R Roy",date:"2024-12-15",course:"Basic"},
-  {sl:3,name:"Suman Jana",roll:"103",mobile:"9907992247",father:"M Jana",date:"2024-11-20",course:"Advance Diploma"}
-];
+
+const sheetURL = "https://script.google.com/macros/s/AKfycbwjCJQ8Et9krH_XESIqXV7589-hTqdws5jOwlHxh3-QPrXjSosoZaqjYjlCHvTQnhc/exec";
 
 function liveDay(date){
-  const d1 = new Date(date);
-  const d2 = new Date();
-  return Math.floor((d2 - d1)/(1000*60*60*24));
+  if(!date) return 0;
+  const d1=new Date(date);
+  const d2=new Date();
+  return Math.floor((d2-d1)/(1000*60*60*24));
 }
 
-function loadTable(){
-  const tbody = document.querySelector("#studentTable tbody");
-  tbody.innerHTML="";
-  students.forEach(s=>{
-    const day = liveDay(s.date);
-    tbody.innerHTML += `
+async function loadTable(){
+  try{
+    const response = await fetch(sheetURL);
+    const students = await response.json();
+
+    const tbody=document.querySelector("#studentTable tbody");
+    tbody.innerHTML="";
+
+    let diploma=0,basic=0,advance=0;
+
+    students.forEach((s,index)=>{
+      const day=liveDay(s.Date);
+
+      if(s.Course==="Diploma") diploma++;
+      if(s.Course==="Basic") basic++;
+      if(s.Course==="Advance Diploma") advance++;
+
+      tbody.insertAdjacentHTML("beforeend",`
       <tr>
-        <td>${s.sl}</td>
-        <td>${s.name}</td>
-        <td>${s.roll}</td>
-        <td>${s.mobile}</td>
-        <td>${s.father}</td>
-        <td>${s.date}</td>
-        <td>${s.course}</td>
+        <td>${s.SL || index+1}</td>
+        <td>${s.Name || ""}</td>
+        <td>${s.Roll || ""}</td>
+        <td>${s.Mobile || ""}</td>
+        <td>${s.Father || ""}</td>
+        <td>${s.Date || ""}</td>
+        <td>${s.Course || ""}</td>
         <td>${day}</td>
-      </tr>`;
-  });
+      </tr>`);
+    });
+
+    document.getElementById("totalCount").innerText=students.length;
+    document.getElementById("diplomaCount").innerText=diploma;
+    document.getElementById("basicCount").innerText=basic;
+    document.getElementById("advanceCount").innerText=advance;
+
+  }catch(error){
+    alert("Data load failed");
+    console.error(error);
+  }
 }
+
 loadTable();
 
-// ===== FILTER =====
-document.querySelectorAll(".filters input, .filters select")
-.forEach(el=>el.addEventListener("input",filterData));
-
-function filterData(){
-  const nameF = nameFilter.value.toLowerCase();
-  const courseF = courseFilter.value;
-  const dateF = dateFilter.value;
-  const dayF = dayFilter.value;
+document.querySelectorAll(".filters input,.filters select")
+.forEach(el=>el.addEventListener("input",()=>{
+  const nameF=nameFilter.value.toLowerCase();
+  const courseF=courseFilter.value;
+  const dateF=dateFilter.value;
+  const dayF=dayFilter.value;
 
   document.querySelectorAll("#studentTable tbody tr").forEach(r=>{
-    const name = r.children[1].innerText.toLowerCase();
-    const course = r.children[6].innerText;
-    const date = r.children[5].innerText;
-    const day = parseInt(r.children[7].innerText);
+    const name=r.children[1].innerText.toLowerCase();
+    const course=r.children[6].innerText;
+    const date=r.children[5].innerText;
+    const day=parseInt(r.children[7].innerText);
 
-    r.style.display =
+    r.style.display=
       (name.includes(nameF)) &&
       (!courseF || course===courseF) &&
       (!dateF || date===dateF) &&
       (!dayF || day>=dayF)
       ? "" : "none";
   });
-}
+}));
 
-// ===== EXPORT =====
 function exportExcel(){
-  const wb = XLSX.utils.table_to_book(studentTable);
+  const wb=XLSX.utils.table_to_book(document.getElementById("studentTable"));
   XLSX.writeFile(wb,"student_data.xlsx");
 }
 
 function exportPDF(){
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  doc.text("Student Data",14,10);
+  const { jsPDF }=window.jspdf;
+  const doc=new jsPDF();
+  doc.text("DFIT Student Data",14,10);
   doc.autoTable({html:"#studentTable",startY:15});
   doc.save("student_data.pdf");
 }
+
 </script>
 
 </body>
